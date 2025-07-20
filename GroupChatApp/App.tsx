@@ -1,28 +1,26 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ThemeProvider } from './src/theme/ThemeContext';
+import JoinScreen from './src/screens/JoinScreen';
+import ChatScreen from './src/screens/ChatScreen';
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+export type RootStackParamList = {
+	Join: undefined;
+	Chat: { username: string };
+};
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NewAppScreen templateFileName="App.tsx" />
-    </View>
-  );
+export default function App() {
+	return (
+		<ThemeProvider>
+			<NavigationContainer>
+				<Stack.Navigator initialRouteName='Join'>
+					<Stack.Screen name='Join' component={JoinScreen} options={{ headerShown: false }} />
+					<Stack.Screen name='Chat' component={ChatScreen} options={{ headerShown: false }} />
+				</Stack.Navigator>
+			</NavigationContainer>
+		</ThemeProvider>
+	);
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
-
-export default App;
